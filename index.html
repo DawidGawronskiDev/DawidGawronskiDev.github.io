@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    
+    <div class="container">
+        <div id="calculator">
+
+            <div id="display">0</div>
+
+            <button class="buttonDigit" value="7">7</button>
+            <button class="buttonDigit" value="8">8</button>
+            <button class="buttonDigit" value="9">9</button>
+            <button class="buttonFunction" id="multiplication">&times;</button>
+    
+            <button class="buttonDigit" value="4">4</button>
+            <button class="buttonDigit" value="5">5</button>
+            <button class="buttonDigit" value="6">6</button>
+            <button class="buttonFunction" id="subtraction">&minus;</button>
+    
+            <button class="buttonDigit" value="1">1</button>
+            <button class="buttonDigit" value="2">2</button>
+            <button class="buttonDigit" value="3">3</button>
+            <button class="buttonFunction" id="addition">&plus;</button>
+    
+            <button class="buttonDigit" value="0">0</button>
+            <button class="buttonFunction" id="division">&divide;</button>
+            <button class="buttonFunction" id="equal">&equals;</button>
+            <button class="buttonFunction" id="reset">C</button>
+        </div>
+    </div>
+
+    <script>
+
+        var display = document.getElementById("display");
+        var firstNumber = 0;
+        var secondNumber = 0;
+
+        //booleans
+        var buttonFunctionBoolean = false;
+        var additionBoolean = false;
+        var subtractionBoolean = false;
+        var divisonBoolean = false;
+        var multiplicationBoolean = false;
+
+        // getting value of the digit
+        var buttonDigitClass = document.getElementsByClassName("buttonDigit");
+        for (let i = 0; i < buttonDigitClass.length; i++) {
+            buttonDigitClass[i].addEventListener("click", function() {
+                if (display.textContent[0] === "0") {
+                    display.textContent = "";
+                }
+                if (buttonFunctionBoolean === true) {
+                    display.textContent = "";
+                    buttonFunctionBoolean = false;
+                }
+                display.innerHTML += buttonDigitClass[i].value;
+            });
+        }
+
+        // mathematic operation buttons
+        var buttonFunction = document.getElementsByClassName("buttonFunction");
+        for (let i = 0; i < buttonFunction.length; i++) {
+            buttonFunction[i].addEventListener("click", function() {
+                buttonFunctionBoolean = true;
+
+                switch(buttonFunction[i].id) {
+                    case "equal":
+                        equal()
+                            break;
+                    case "addition":
+                        firstNumber = Number(display.textContent);
+                        additionBoolean = true;
+                            break;
+                    case "subtraction":
+                        firstNumber = Number(display.textContent);
+                        subtractionBoolean = true;
+                            break;
+                    case "division":
+                        firstNumber = Number(display.textContent);
+                        divisonBoolean = true;
+                            break;
+                    case "multiplication":
+                        firstNumber = Number(display.textContent);
+                        multiplicationBoolean = true;
+                            break;
+                    case "reset":
+                        reset()
+                            break;
+                };
+
+            });
+        }
+
+        // mathematic operations
+        function equal() {
+
+            secondNumber = Number(display.textContent);
+
+            if (additionBoolean === true) {
+                addition();
+                additionBoolean = false;
+            }
+            if (subtractionBoolean === true) {
+                subtraction();
+                subtractionBoolean = false;
+            }
+            if (divisonBoolean === true) {
+                division();
+                divisonBoolean = false;
+            }
+            if (multiplicationBoolean === true) {
+                multiplication();
+                multiplicationBoolean = false;
+            }
+
+            firstNumber = 0;
+            secondNumber = 0;
+            buttonFunctionBoolean = false;
+
+        }
+
+        function addition() {
+            display.textContent = "";
+            display.textContent = firstNumber + secondNumber;
+        }
+        function subtraction() {
+            display.textContent = "";
+            display.textContent = firstNumber - secondNumber;
+        }
+        function division() {
+            display.textContent = "";
+            display.textContent = firstNumber / secondNumber;
+        }
+        function multiplication() {
+            display.textContent = "";
+            display.textContent = firstNumber * secondNumber;
+        }
+        function reset() {
+            display.textContent = "0";
+            firstNumber = 0;
+            secondNumber = 0;
+            additionBoolean = false;
+            subtractionBoolean = false;
+            divisonBoolean = false;
+            multiplicationBoolean = false;
+        }
+
+    </script>
+</body>
+</html>
